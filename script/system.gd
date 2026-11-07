@@ -48,6 +48,10 @@ var _last_pointer := Vector2.ZERO
 var _map_scale: float = 50.0
 var _map_offset := Vector2.ZERO
 var _hover_key: Variant = null
+var _view_center := Vector3.ZERO
+var _view_scale: float = 1.0
+var _view_distance: float = 20.0
+var _view_offset := Vector2.ZERO
 
 @onready var _geometry_view: Node3D = $GeometryView
 @onready var _solid: MeshInstance3D = $GeometryView/Solid
@@ -356,7 +360,7 @@ func _show_geometry() -> void:
 	_orbit_angles = _view_angles(view_index)
 	_solid.mesh = geometry.build_mesh()
 	_outline.mesh = geometry.build_outline_mesh()
-	_update_camera()
+	_fit_views()
 	_refresh_ui()
 
 
@@ -431,61 +435,43 @@ func _view_rect() -> Rect2:
 	return Rect2(Vector2(view_margins.x, view_margins.y), (size - Vector2(view_margins.x + view_margins.z, view_margins.y + view_margins.w)).max(Vector2.ONE))
 
 
+## 包围盒对角线即包围球直径，足以容纳任意朝向；仅在几何体或窗口改变时取景。
 func _fit_views() -> void:
+	if geometry == null:
+		return
+	var bounds := geometry.get_bounds()
+	var diameter := maxf(bounds.size.length(), 0.01)
+	var area := _view_rect()
+	var screen_size := get_viewport().get_visible_rect().size
+	_view_center = bounds.get_center()
+	_view_scale = minf(minf(area.size.x, area.size.y) / diameter, 105.0 / sqrt(2.0 / 3.0))
+	_view_distance = diameter + 10.0
+	_view_offset = screen_size * 0.5 - area.get_center()
+	_camera.size = screen_size.y / _view_scale
+	_camera.far = maxf(100.0, _view_distance * 2.0)
 	_update_camera()
 	if parallel_map != null:
 		_fit_map()
 
 
-## 三维与二维使用相同的可视区域，保证切换时投影的位置和比例一致。
+## 拖动与吸附只更新姿态，缩放和旋转中心保持固定。
 func _update_camera() -> void:
 	if geometry == null:
 		return
-	var center := geometry.get_bounds().get_center()
+	var center := _view_center
 	var direction := _orbit_direction()
-	var distance := geometry.get_bounds().size.length() + 10.0
-	_camera.position = center + direction * distance
+	_camera.position = center + direction * _view_distance
 	_camera.look_at(center, Vector3.UP)
-	var right := _camera.global_basis.x
-	var up := _camera.global_basis.y
-	var minimum := Vector2(INF, INF)
-	var maximum := Vector2(-INF, -INF)
-	for cell: Vector3i in geometry.voxels:
-		for x: int in range(2):
-			for y: int in range(2):
-				for z: int in range(2):
-					var point := Vector3(cell) + Vector3(x, y, z)
-					var projected := Vector2(point.dot(right), point.dot(up))
-					minimum = minimum.min(projected)
-					maximum = maximum.max(projected)
-	var area := _view_rect()
-	var span := (maximum - minimum).max(Vector2.ONE * 0.01)
-	var scale := minf(minf(area.size.x / span.x, area.size.y / span.y), 105.0 / sqrt(2.0 / 3.0))
-	var projected_center := (minimum + maximum) * 0.5
-	var screen_center := get_viewport().get_visible_rect().size * 0.5
-	center += right * (projected_center.x - center.dot(right) + (screen_center.x - area.get_center().x) / scale)
-	center += up * (projected_center.y - center.dot(up) - (screen_center.y - area.get_center().y) / scale)
-	_camera.position = center + direction * distance
+	# 将固定中心放在 UI 预留区域中央，不随投影轮廓重新居中。
+	center += (_camera.global_basis.x * _view_offset.x - _camera.global_basis.y * _view_offset.y) / _view_scale
+	_camera.position = center + direction * _view_distance
 	_camera.look_at(center, Vector3.UP)
-	_camera.size = screen_center.y * 2.0 / scale
-	_camera.far = maxf(100.0, distance * 2.0)
 
 
+## 正等轴测下，网格单位与世界投影单位相差 sqrt(2/3)，空图也共用相机变换。
 func _fit_map() -> void:
-	# 空图仍允许继续编辑；窗口变化时保留原来的网格变换。
-	if parallel_map.triangles.is_empty():
-		_map_view.queue_redraw()
-		return
-	var minimum := Vector2(INF, INF)
-	var maximum := Vector2(-INF, -INF)
-	for key: Vector3i in parallel_map.triangles:
-		for point: Vector2 in ParallelMap.triangle_vertices(key):
-			minimum = minimum.min(point)
-			maximum = maximum.max(point)
-	var area := _view_rect()
-	var span := (maximum - minimum).max(Vector2.ONE * 0.01)
-	_map_scale = minf(minf(area.size.x / span.x, area.size.y / span.y), 105.0)
-	_map_offset = area.get_center() - (minimum + maximum) * 0.5 * _map_scale
+	_map_scale = _view_scale * sqrt(2.0 / 3.0)
+	_map_offset = _camera.unproject_position(Vector3.ZERO)
 	_map_view.queue_redraw()
 
 

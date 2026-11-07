@@ -88,31 +88,97 @@ func apply_target(target: ParallelMap) -> void:
 	expect(app.parallel_map.projection_equal(target), "editing produces the exact target")
 
 
+func check_projection_alignment(view: int) -> void:
+	for point: Vector3i in [Vector3i.ZERO, Vector3i.RIGHT, Vector3i.UP, Vector3i.BACK, Vector3i(2, 1, 1)]:
+		var local := point
+		match view:
+			1: local = Vector3i(point.z, point.y, -point.x)
+			2: local = Vector3i(-point.x, point.y, -point.z)
+			3: local = Vector3i(-point.z, point.y, point.x)
+		var grid := Vector2i(local.x - local.y, local.z - local.y)
+		var map_point: Vector2 = ParallelMap.grid_to_screen(grid) * app._map_scale + app._map_offset
+		expect(app._camera.unproject_position(Vector3(point)).distance_to(map_point) < 0.1, "3D and 2D align in view %d" % view)
+
+
 func check_camera_alignment() -> void:
 	for view: int in range(4):
 		app.view_index = view
 		app._orbit_angles = app._view_angles(view)
 		app._update_camera()
 		expect(app.enter_map_mode(), "enter view %d" % view)
-		for point: Vector3i in [Vector3i.ZERO, Vector3i.RIGHT, Vector3i.UP, Vector3i.BACK, Vector3i(2, 1, 1)]:
-			var local := point
-			match view:
-				1: local = Vector3i(point.z, point.y, -point.x)
-				2: local = Vector3i(-point.x, point.y, -point.z)
-				3: local = Vector3i(-point.z, point.y, point.x)
-			var grid := Vector2i(local.x - local.y, local.z - local.y)
-			var map_point: Vector2 = ParallelMap.grid_to_screen(grid) * app._map_scale + app._map_offset
-			expect(app._camera.unproject_position(Vector3(point)).distance_to(map_point) < 0.1, "3D and 2D align in view %d" % view)
+		check_projection_alignment(view)
 		var source: String = signature(app.geometry)
 		click(app._undo)
 		expect(app.state == app.State.GEOMETRY and signature(app.geometry) == source, "cancel restores geometry")
 		expect(app._cycles.is_empty(), "cancel creates no cycle")
 
 
+func camera_unit_pixels() -> float:
+	var center: Vector3 = app.geometry.get_bounds().get_center()
+	return app._camera.unproject_position(center).distance_to(app._camera.unproject_position(center + app._camera.global_basis.x))
+
+
+## 较大的非对称长臂布局，避免小模型的像素上限掩盖自动缩放问题。
+func check_fixed_framing() -> void:
+	var cells: Dictionary = {}
+	for x: int in range(-3, 4):
+		cells[Vector3i(x, 0, 0)] = true
+	for offset: int in range(3):
+		cells[Vector3i(-3, offset, 0)] = true
+		cells[Vector3i(-3, 0, offset)] = true
+	fixture(cells)
+	var locked_size: float = app._camera.size
+	var locked_pixels := camera_unit_pixels()
+	var center: Vector3 = app.geometry.get_bounds().get_center()
+	expect(locked_pixels < 105.0 / sqrt(2.0 / 3.0) - 1.0, "large fixture is below the pixel-scale cap")
+	for yaw: int in range(0, 360, 45):
+		for pitch: float in [-88.0, -50.0, 0.0, 35.264, 70.0, 88.0]:
+			app._apply_angles(Vector2(deg_to_rad(yaw), deg_to_rad(pitch)))
+			expect(is_equal_approx(app._camera.size, locked_size), "orbit keeps orthographic size")
+			expect(absf(camera_unit_pixels() - locked_pixels) < 0.001, "orbit keeps pixels per world unit")
+			var area: Rect2 = app._view_rect()
+			expect(app._camera.unproject_position(center).distance_to(area.get_center()) < 0.01, "asymmetric pivot stays fixed on screen")
+			var all_inside := true
+			for cell: Vector3i in cells:
+				for x: int in range(2):
+					for y: int in range(2):
+						for z: int in range(2):
+							var screen: Vector2 = app._camera.unproject_position(Vector3(cell) + Vector3(x, y, z))
+							all_inside = all_inside and area.grow(0.01).has_point(screen)
+			expect(all_inside, "all rotated voxel corners fit the reserved view area")
+	check_camera_alignment()
+	await check_orbit()
+	await screenshot("fixed_orbit_isometric")
+	app._apply_angles(Vector2(deg_to_rad(95), deg_to_rad(18)))
+	await screenshot("fixed_orbit_rotated")
+	fixture({Vector3i.ZERO: true})
+	expect(app._camera.size < locked_size, "changing geometry refreshes framing")
+	fixture(cells)
+	expect(is_equal_approx(app._camera.size, locked_size), "restoring geometry restores its framing")
+	expect(app.enter_map_mode(), "enter map before viewport resize")
+	var window_size := root.size
+	var content_size := root.content_scale_size
+	var viewport_size := root.get_visible_rect().size
+	root.content_scale_size = Vector2i(960, 640)
+	root.size = Vector2i(960, 640)
+	await frames(5)
+	expect(root.get_visible_rect().size != viewport_size, "viewport resize changes the working area")
+	expect(not is_equal_approx(app._camera.size, locked_size), "viewport resize refreshes framing")
+	expect(app._camera.unproject_position(center).distance_to(app._view_rect().get_center()) < 0.01, "resized viewport preserves the pivot placement")
+	check_projection_alignment(0)
+	click(app._undo)
+	root.content_scale_size = content_size
+	root.size = window_size
+	await frames(5)
+	expect(is_equal_approx(app._camera.size, locked_size), "restoring viewport restores framing")
+
+
 func check_orbit() -> void:
 	app.view_index = 0
 	app._show_geometry()
 	var original: String = signature(app.geometry)
+	var locked_size: float = app._camera.size
+	var pivot: Vector3 = app.geometry.get_bounds().get_center()
 	var start := Vector2(600, 300)
 	pointer(start, true)
 	expect(app._drag_button == MOUSE_BUTTON_LEFT, "background press starts orbit")
@@ -122,10 +188,19 @@ func check_orbit() -> void:
 	motion.button_mask = MOUSE_BUTTON_MASK_LEFT
 	root.push_input(motion, true)
 	expect(app._orbit_angles.y < 0.0, "orbit can look below the geometry")
+	expect(is_equal_approx(app._camera.size, locked_size), "mouse drag does not zoom")
 	pointer(app._convert.get_global_rect().get_center(), false)
 	expect(app._drag_button == MOUSE_BUTTON_NONE, "release over UI ends orbit")
 	expect(app.state == app.State.GEOMETRY, "orbit release does not click UI")
-	await create_timer(app.snap_duration + 0.1).timeout
+	var stable := true
+	var snap_frames := 0
+	var deadline := Time.get_ticks_msec() + 2000
+	while app._snap_tween != null and Time.get_ticks_msec() < deadline:
+		stable = stable and is_equal_approx(app._camera.size, locked_size)
+		stable = stable and app._camera.unproject_position(pivot).distance_to(app._view_rect().get_center()) < 0.01
+		snap_frames += 1
+		await process_frame
+	expect(stable and snap_frames > 1 and app._snap_tween == null, "every snap frame keeps size and pivot fixed")
 	expect(app.view_index == 1, "orbit snaps to the nearest upper view")
 	expect(app._orbit_direction().distance_to(app.VIEW_DIRECTIONS[1].normalized()) < 0.001, "snap completes at exact isometric direction")
 	expect(signature(app.geometry) == original, "orbit never rotates voxel coordinates")
@@ -224,6 +299,7 @@ func _run() -> void:
 	var seeded: String = signature(app.geometry)
 	app.generate_geometry()
 	expect(signature(app.geometry) == seeded, "fixed generation seed is reproducible")
+	await check_fixed_framing()
 	var cells: Dictionary = {}
 	for x: int in range(3):
 		for z: int in range(2):
