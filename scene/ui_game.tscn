@@ -1,0 +1,216 @@
+[gd_scene load_steps=9 format=3]
+
+[sub_resource type="SystemFont" id="Font_game"]
+font_names = PackedStringArray("Microsoft YaHei", "Noto Sans CJK SC", "sans-serif")
+
+[sub_resource type="StyleBoxFlat" id="Style_normal"]
+bg_color = Color(0.12, 0.19, 0.28, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.22, 0.32, 0.44, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="Style_hover"]
+bg_color = Color(0.19, 0.29, 0.41, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="Style_pressed"]
+bg_color = Color(0.23, 0.38, 0.54, 1)
+border_width_bottom = 3
+border_color = Color(0.61, 0.79, 0.96, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="Theme" id="Theme_game"]
+default_font = SubResource("Font_game")
+default_font_size = 17
+Button/colors/font_color = Color(0.9, 0.94, 0.98, 1)
+Button/colors/font_disabled_color = Color(0.4, 0.47, 0.56, 1)
+Button/styles/normal = SubResource("Style_normal")
+Button/styles/hover = SubResource("Style_hover")
+Button/styles/pressed = SubResource("Style_pressed")
+Button/styles/disabled = SubResource("Style_normal")
+Label/colors/font_color = Color(0.64, 0.73, 0.83, 1)
+
+[sub_resource type="ButtonGroup" id="Group_tools"]
+
+[sub_resource type="ButtonGroup" id="Group_faces"]
+
+[sub_resource type="StyleBoxEmpty" id="Style_focus"]
+
+[node name="UIGame" type="CanvasLayer"]
+layer = 10
+
+[node name="ConvertButton" type="Button" parent="."]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -244.0
+offset_top = -88.0
+offset_right = -32.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+theme = SubResource("Theme_game")
+theme_override_styles/focus = SubResource("Style_focus")
+text = "进入轴测图"
+
+[node name="StatusLabel" type="Label" parent="ConvertButton"]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -900.0
+offset_top = -52.0
+offset_bottom = -12.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 15
+text = "拖动旋转，松开后吸附到等轴测视角。"
+horizontal_alignment = 2
+vertical_alignment = 2
+autowrap_mode = 2
+
+[node name="UndoButton" type="Button" parent="."]
+unique_name_in_owner = true
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -88.0
+offset_right = 244.0
+offset_bottom = -32.0
+grow_vertical = 0
+focus_mode = 0
+theme = SubResource("Theme_game")
+text = "撤销完整循环"
+disabled = true
+
+[node name="EditMenu" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -200.0
+offset_right = -32.0
+offset_bottom = -148.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme = SubResource("Theme_game")
+
+[node name="Tools" type="Control" parent="EditMenu"]
+layout_mode = 0
+offset_right = 310.0
+offset_bottom = 52.0
+mouse_filter = 2
+
+[node name="BrushButton" type="Button" parent="EditMenu/Tools"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 96.0
+offset_bottom = 52.0
+focus_mode = 0
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("Group_tools")
+text = "画笔"
+tooltip_text = "已有三角格改色，空白三角格添加。"
+
+[node name="EraserButton" type="Button" parent="EditMenu/Tools"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 106.0
+offset_right = 202.0
+offset_bottom = 52.0
+focus_mode = 0
+toggle_mode = true
+button_group = SubResource("Group_tools")
+text = "橡皮"
+tooltip_text = "删除三角格。"
+
+[node name="UndoEditButton" type="Button" parent="EditMenu/Tools"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 212.0
+offset_right = 308.0
+offset_bottom = 52.0
+focus_mode = 0
+text = "撤回"
+tooltip_text = "撤回最近一次三角格修改，并返还额度。"
+
+[node name="Faces" type="Control" parent="EditMenu"]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -308.0
+offset_bottom = 52.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="TopButton" type="Button" parent="EditMenu/Faces"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 96.0
+offset_bottom = 52.0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.9, 0.84, 0.64, 1)
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("Group_faces")
+text = "上面"
+
+[node name="LeftButton" type="Button" parent="EditMenu/Faces"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 106.0
+offset_right = 202.0
+offset_bottom = 52.0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.56, 0.65, 0.78, 1)
+toggle_mode = true
+button_group = SubResource("Group_faces")
+text = "左面"
+
+[node name="RightButton" type="Button" parent="EditMenu/Faces"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 212.0
+offset_right = 308.0
+offset_bottom = 52.0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.47, 0.66, 0.83, 1)
+toggle_mode = true
+button_group = SubResource("Group_faces")
+text = "右面"
+
+[node name="BudgetLabel" type="Label" parent="EditMenu"]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -120.0
+offset_right = 120.0
+offset_bottom = 52.0
+grow_horizontal = 2
+mouse_filter = 2
+text = "剩余编辑 10 / 10"
+horizontal_alignment = 1
+vertical_alignment = 1

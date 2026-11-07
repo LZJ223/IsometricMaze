@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://script/system.gd" id="1_system"]
+[ext_resource type="PackedScene" path="res://scene/ui_game.tscn" id="2_ui"]
+
+[sub_resource type="StandardMaterial3D" id="Material_solid"]
+albedo_color = Color(0.86, 0.89, 0.93, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Material_outline"]
+shading_mode = 0
+albedo_color = Color(0.12, 0.18, 0.26, 1)
+render_priority = 1
+
+[sub_resource type="Environment" id="Environment_game"]
+background_mode = 1
+background_color = Color(0.051, 0.078, 0.125, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.69, 0.77, 0.86, 1)
+ambient_light_energy = 0.55
+tonemap_mode = 2
+
+[node name="Game" type="Node"]
+script = ExtResource("1_system")
+
+[node name="GeometryView" type="Node3D" parent="."]
+
+[node name="Solid" type="MeshInstance3D" parent="GeometryView"]
+material_override = SubResource("Material_solid")
+
+[node name="Outline" type="MeshInstance3D" parent="GeometryView"]
+material_override = SubResource("Material_outline")
+
+[node name="Camera3D" type="Camera3D" parent="GeometryView"]
+projection = 1
+current = true
+near = 0.05
+far = 100.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="GeometryView/Camera3D"]
+rotation_degrees = Vector3(-45, -35, 0)
+light_color = Color(1, 0.96, 0.88, 1)
+light_energy = 1.65
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="GeometryView"]
+environment = SubResource("Environment_game")
+
+[node name="ParallelMapView" type="Node2D" parent="."]
+visible = false
+
+[node name="UIGame" parent="." instance=ExtResource("2_ui")]

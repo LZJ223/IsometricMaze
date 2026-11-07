@@ -1,0 +1,4 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 Core Profile Context 26.10.1.261008 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon RX 7650 GRE
+
+{"checks":190,"failures":[],"outline_reconstruction":{"outline contraction":{"edit_cost":1,"elapsed_ms":3,"status":"optimal"},"outline expansion":{"edit_cost":1,"elapsed_ms":3,"status":"optimal"}},"screenshots":true,"status":"passed"}

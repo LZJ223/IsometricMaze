@@ -1,0 +1,84 @@
+78098b89c88a74ebe8c20117b8754620
+::res://::1794040447
+::res://scene/::1794039341
+game.tscn::PackedScene::-1::1794039341::0::1::::<><><>0<>0<><>::res://script/system.gd<>res://scene/ui_game.tscn
+ui_game.tscn::PackedScene::-1::1794039341::0::1::::<><><>0<>0<><>::
+::res://script/::1794039485
+geometry.gd::GDScript::5663222774715688909::1793973449::0::1::::Geometry<>RefCounted<><>0<>0<><>::
+geometry_reconstructor.gd::GDScript::3932360825682994148::1793332692::0::1::::GeometryReconstructor<>RefCounted<><>0<>0<><>::
+parallel_map.gd::GDScript::3740724164808524382::1793688713::0::1::::ParallelMap<>RefCounted<><>0<>0<><>::
+system.gd::GDScript::200342112837714685::1794039801::0::1::::<>Node<><>0<>0<><>::
+::res://test/::1793974020
+main.gd::GDScript::2938458815689245821::1793689848::0::1::::<>Control<><>0<>0<><>::
+main.tscn::PackedScene::7323104939981047327::1793974020::0::1::::<><><>0<>0<><>::uid://bh4n8tn8x4dyj::::res://test/main.gd
+map_canvas.gd::GDScript::2876723007758383161::1793689457::0::1::::<>Control<><>0<>0<><>::
+snapshot_store.gd::GDScript::2028555421981997427::1793688871::0::1::::<>RefCounted<><>0<>0<><>::
+::res://test/validation/::1794039643
+core_results.json::JSON::-1::1793689810::0::1::::<><><>0<>0<><>::
+core_validation.gd::GDScript::6837950368815720354::1793332822::0::1::::<>SceneTree<><>0<>0<><>::
+core_validation.log::TextFile::-1::1793689810::0::1::::<><><>0<>0<><>::
+edit_fixture.json::JSON::-1::1793689810::0::1::::<><><>0<>0<><>::
+game_validation.gd::GDScript::2792083103178265679::1794039824::0::1::::<>SceneTree<><>0<>0<><>::
+geometry.png::CompressedTexture2D::3255671172615052764::1793689898::1793933236::1::::<><><>0<>0<>9e0259e7e67385463a36ff70b6ee4766<>res://.godot/imported/geometry.png-f7237f8baa342bfd68f368292ddc7341.ctex::
+marker_validation.gd::GDScript::3517079255425484420::1793688852::0::1::::<>SceneTree<><>0<>0<><>::
+parallel_map.png::CompressedTexture2D::5387250637410005857::1793689899::1793933236::1::::<><><>0<>0<>9c0c8e8cc0d9879aebc43197d1435d00<>res://.godot/imported/parallel_map.png-bae309caf31bba6f1d2cc28de4dc84de.ctex::
+play_session.log::TextFile::-1::1793333431::0::1::::<><><>0<>0<><>::
+ui_results.json::JSON::-1::1793689900::0::1::::<><><>0<>0<><>::
+ui_validation.gd::GDScript::8418163201926666719::1793689792::0::1::::<>SceneTree<><>0<>0<><>::
+visual_validation.log::TextFile::-1::1793689900::0::1::::<><><>0<>0<><>::
+::res://test/validation/runtime/::1793689998
+::res://test/validation/runtime/Godot/::1793332846
+editor_settings-4.7.tres::EditorSettings::-1::1793332846::0::1::::<><><>0<>0<><>::
+::res://test/validation/runtime/Godot/app_userdata/::1793332660
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/::1793333072
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/isometric_maze_whitebox/::1793332855
+session.json::JSON::-1::1793333333::0::1::::<><><>0<>0<><>::
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/logs/::1793689135
+godot2026-10-30T11.59.44.log::TextFile::-1::1793332784::0::1::::<><><>0<>0<><>::
+godot2026-10-30T12.00.54.log::TextFile::-1::1793332854::0::1::::<><><>0<>0<><>::
+godot2026-11-03T14.58.55.log::TextFile::-1::1793689135::0::1::::<><><>0<>0<><>::
+godot.log::TextFile::-1::1793689135::0::1::::<><><>0<>0<><>::
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/objectdb_snapshots/::1793332763
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/CanvasOcclusionShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/CanvasOcclusionShaderGLES3/31550cc82c7c475399e4300cd9303dd94c42cd0f5a7a0bd7068af9ffcb67f599/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/CanvasSdfShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/CanvasSdfShaderGLES3/e05fadffe782b653f193bbd247705738b3734bcbd708dca55d88d7b4867671ab/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/CanvasShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/CanvasShaderGLES3/3f5b62123897faddc0fd8f74b125469649b422e89f07d331cf4fda7e2a9f3da6/::1793333079
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/CopyShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/CopyShaderGLES3/a61b2879bb66080bd6462c2daa112a8b6e137c5e8618ee37155a05300ba1bb49/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/CubemapFilterShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/CubemapFilterShaderGLES3/05da1d9ee61dc4f3bde8dfb18a352bf9c97488c3fe7ea09a22db1c8376c4fc5e/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/FeedShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/FeedShaderGLES3/edb28ce5f4b373086b5c5f30004a1e4b069227551ddaf4a2e11df034b6c8cbba/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/GlowShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/GlowShaderGLES3/5a249202300279505b70e84e3474650dadd25349a18646a650c4ad8956d4d2c8/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/ParticlesCopyShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/ParticlesCopyShaderGLES3/e23faf13046e66500c44f475b2212eedefb2a778f2b4742a0d4c59acca72c400/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/ParticlesShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/ParticlesShaderGLES3/ee3f14ea44d86998e6f1db3ab4c87942c30f88fa4f47b6f9741bb7b71602d907/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/PostShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/PostShaderGLES3/c3deb45b0b145b2593f34b310f6d8ab49f7958d2259daafebe86ae4e65db923e/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/SceneShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/SceneShaderGLES3/9b39692b0322f7899adadc2d093755d8f9d237c76117965d143102054d296463/::1793333079
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/SkeletonShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/SkeletonShaderGLES3/0f0113f5f298df5092aaad995e0f7feb226ec22e802ccd87bad80e02813b7381/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/SkyShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/SkyShaderGLES3/edac067a35e0dc9c1ee7c1f7062196b184d1a5be6866263625d63b4b72d65bfa/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/TexBlitShaderGLES3/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/shader_cache/TexBlitShaderGLES3/538c6fe9d5ee2a428eb5d32955f3490e9ec22849390903fad1ad9128343b000c/::1793333073
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/test/::1793332660
+::res://test/validation/runtime/Godot/app_userdata/Isometric Maze - Reconstruction Whitebox/test/validation/::1793332660
+::res://test/validation/runtime/Godot/export_templates/::1793332761
+::res://test/validation/runtime/Godot/feature_profiles/::1793332761
+::res://test/validation/runtime/Godot/script_templates/::1793332761
+::res://test/validation/runtime/Godot/text_editor_themes/::1793332761
+::res://开发日志/::1794039896
+2026-10-30_首版白模与几何重建系统.md::TextFile::-1::1793953377::0::1::::<><><>0<>0<><>::
+2026-11-03_自由旋转、三角格增删与玩家目的地系统.md::TextFile::-1::1793953675::0::1::::<><><>0<>0<><>::
+2026-11-07_主场景与游戏循环.md::TextFile::-1::1794039896::0::1::::<><><>0<>0<><>::
+::res://策划案/::1793954348
+几何重建系统.md::TextFile::-1::1793949447::0::1::::<><><>0<>0<><>::
+游戏策划案.md::TextFile::-1::1793951851::0::1::::<><><>0<>0<><>::
+谜题设计策划.md::TextFile::-1::1793951026::0::1::::<><><>0<>0<><>::

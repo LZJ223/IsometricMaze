@@ -1,0 +1,3 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+{"checks":1758,"failures":[],"fixture":{"edits":[{"orientation":1,"triangle":[-1,0,0]},{"orientation":2,"triangle":[-1,-1,1]},{"orientation":1,"triangle":[0,0,1]}],"original":[[0,0,0],[0,0,1],[0,1,1]],"target_example":[[0,0,1],[0,1,1],[1,1,1]],"view_index":0},"optimization_cases":64,"projection_cases":1020,"required_forbidden_cases":64,"status":"passed"}

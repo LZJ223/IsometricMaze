@@ -1,0 +1,63 @@
+{
+	"edits": [
+		{
+			"orientation": 1,
+			"triangle": [
+				-1,
+				0,
+				0
+			]
+		},
+		{
+			"orientation": 2,
+			"triangle": [
+				-1,
+				-1,
+				1
+			]
+		},
+		{
+			"orientation": 1,
+			"triangle": [
+				0,
+				0,
+				1
+			]
+		}
+	],
+	"original": [
+		[
+			0,
+			0,
+			0
+		],
+		[
+			0,
+			0,
+			1
+		],
+		[
+			0,
+			1,
+			1
+		]
+	],
+	"target_example": [
+		[
+			0,
+			0,
+			1
+		],
+		[
+			0,
+			1,
+			1
+		],
+		[
+			1,
+			1,
+			1
+		]
+	],
+	"view_index": 0
+}
