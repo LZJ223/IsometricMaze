@@ -3,14 +3,11 @@
 [ext_resource type="Script" path="res://script/system.gd" id="1_system"]
 [ext_resource type="PackedScene" path="res://scene/ui_game.tscn" id="2_ui"]
 
+[ext_resource type="Script" path="res://script/rendering/hand_drawn_renderer.gd" id="3_renderer"]
+
 [sub_resource type="StandardMaterial3D" id="Material_solid"]
 albedo_color = Color(0.86, 0.89, 0.93, 1)
 roughness = 0.9
-
-[sub_resource type="StandardMaterial3D" id="Material_outline"]
-shading_mode = 0
-albedo_color = Color(0.12, 0.18, 0.26, 1)
-render_priority = 1
 
 [sub_resource type="Environment" id="Environment_game"]
 background_mode = 1
@@ -28,8 +25,8 @@ script = ExtResource("1_system")
 [node name="Solid" type="MeshInstance3D" parent="GeometryView"]
 material_override = SubResource("Material_solid")
 
-[node name="Outline" type="MeshInstance3D" parent="GeometryView"]
-material_override = SubResource("Material_outline")
+[node name="HandDrawnRenderer" type="Node" parent="GeometryView"]
+script = ExtResource("3_renderer")
 
 [node name="Camera3D" type="Camera3D" parent="GeometryView"]
 projection = 1

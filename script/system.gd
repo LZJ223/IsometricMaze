@@ -55,7 +55,7 @@ var _view_offset := Vector2.ZERO
 
 @onready var _geometry_view: Node3D = $GeometryView
 @onready var _solid: MeshInstance3D = $GeometryView/Solid
-@onready var _outline: MeshInstance3D = $GeometryView/Outline
+@onready var _renderer: Node = $GeometryView/HandDrawnRenderer
 @onready var _camera: Camera3D = $GeometryView/Camera3D
 @onready var _map_view: Node2D = $ParallelMapView
 @onready var _ui: CanvasLayer = $UIGame
@@ -71,6 +71,7 @@ var _view_offset := Vector2.ZERO
 
 
 func _ready() -> void:
+	_renderer.setup(_solid, _camera, $GeometryView/WorldEnvironment.environment, $GeometryView/Camera3D/DirectionalLight3D)
 	_convert.pressed.connect(_convert_view)
 	_undo.pressed.connect(_undo_view)
 	_undo_edit.pressed.connect(undo_edit)
@@ -359,7 +360,6 @@ func _show_geometry() -> void:
 	_drag_button = MOUSE_BUTTON_NONE
 	_orbit_angles = _view_angles(view_index)
 	_solid.mesh = geometry.build_mesh()
-	_outline.mesh = geometry.build_outline_mesh()
 	_fit_views()
 	_refresh_ui()
 
@@ -368,6 +368,7 @@ func _refresh_ui() -> void:
 	var editing := state != State.GEOMETRY
 	var busy := state == State.RECONSTRUCTING
 	_geometry_view.visible = not editing
+	_renderer.set_geometry_visible(not editing)
 	_map_view.visible = editing
 	_menu.visible = editing
 	_convert.text = "进入轴测图" if not editing else ("继续重建" if _search_multiplier > 1 else "重建几何体")
@@ -466,6 +467,7 @@ func _update_camera() -> void:
 	center += (_camera.global_basis.x * _view_offset.x - _camera.global_basis.y * _view_offset.y) / _view_scale
 	_camera.position = center + direction * _view_distance
 	_camera.look_at(center, Vector3.UP)
+	_renderer.sync_frame()
 
 
 ## 正等轴测下，网格单位与世界投影单位相差 sqrt(2/3)，空图也共用相机变换。
